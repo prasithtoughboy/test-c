@@ -2,73 +2,37 @@ pipeline {
     agent any
 
     stages {
-        stage ('Clone') {
+        stage('compile') {
             steps {
-                git branch: 'master', url: "https://github.com/jfrog/project-examples.git"
+                sh 'gcc -o my_app main.c foo.c'
             }
         }
-
-        stage ('Upload') {
+        stage('build') {
             steps {
-                rtUpload (
-                    buildName: 'MK',
-                    buildNumber: '48',
-                    serverId: 'myartifactory', // Obtain an Artifactory server instance, defined in Jenkins --> Manage:
-                    specPath: 'jenkins-examples/pipeline-examples/resources/props-upload.json'
-                )
+                sh './my_app'
             }
         }
-
-        stage ('Download') {
+        stage ('Configure build info') {
             steps {
-                rtDownload (
-                    buildName: 'MK',
-                    buildNumber: '49',
-                    serverId: 'myartifactory',
-                    specPath: 'jenkins-examples/pipeline-examples/resources/props-download.json'
-                )
+rtUpload (
+    serverId: "myartifactory",
+    spec:
+        """{
+          "files": [
+            {
+              "pattern": "*.c",
+              "target": "generic-local/"
+            }
+         ]
+        }"""
+)
             }
         }
 
         stage ('Publish build info') {
             steps {
                 rtPublishBuildInfo (
-                    buildName: 'MK',
-                    buildNumber: '48',
-                    serverId: 'myartifactory'
-                )
-
-                rtPublishBuildInfo (
-                    buildName: 'MK',
-                    buildNumber: '49',
-                    serverId: 'myartifactory'
-                )
-            }
-        }
-
-        stage ('Add interactive promotion') {
-            steps {
-                rtAddInteractivePromotion (
-                    //Mandatory parameter
-                    serverId: 'myartifactory',
-
-                    //Optional parameters
-                    targetRepo: 'libs-release-local',
-                    displayName: 'Promote me please',
-                    buildName: 'MK',
-                    buildNumber: '48',
-                    comment: 'this is the promotion comment',
-                    sourceRepo: 'libs-snapshot-local',
-                    status: 'Released',
-                    includeDependencies: true,
-                    failFast: true,
-                    copy: true
-                )
-
-                rtAddInteractivePromotion (
-                    serverId: 'myartifactory',
-                    buildName: 'MK',
-                    buildNumber: '49'
+                    serverId: myartifactory
                 )
             }
         }

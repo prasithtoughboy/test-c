@@ -20,7 +20,7 @@ rtUpload (
         """{
           "files": [
             {
-              "pattern": "*.c",
+              "pattern": "*.h",
               "target": "generic-local/"
             }
          ]

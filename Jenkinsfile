@@ -28,13 +28,5 @@ rtUpload (
 )
             }
         }
-
-        stage ('Publish build info') {
-            steps {
-                rtPublishBuildInfo (
-                    serverId: myartifactory
-                )
-            }
-        }
     }
 }

@@ -21,7 +21,7 @@ rtDownload (
           "files": [
             {
               "pattern": "generic-local/*.h",
-              "target": "/tmp"
+              "target": "downloads/"
             }
          ]
         }"""

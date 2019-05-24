@@ -14,7 +14,7 @@ pipeline {
         }
         stage ('Configure build info') {
             steps {
-rtUpload (
+rtDownload (
     serverId: "myartifactory",
     spec:
         """{

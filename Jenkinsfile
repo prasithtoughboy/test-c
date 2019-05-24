@@ -21,7 +21,7 @@ rtDownload (
           "files": [
             {
               "pattern": "generic-local/*.h",
-              "target": "/home/vvdn/Desktop/test-file"
+              "target": "/tmp"
             }
          ]
         }"""

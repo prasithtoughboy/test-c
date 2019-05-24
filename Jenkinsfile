@@ -20,8 +20,8 @@ rtUpload (
         """{
           "files": [
             {
-              "pattern": "*.h",
-              "target": "generic-local/"
+              "pattern": "generic-local/*.h",
+              "target": "/home/vvdn/Desktop"
             }
          ]
         }"""
